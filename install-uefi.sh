@@ -16,14 +16,15 @@ echo root:password | chpasswd
 # You can add xorg to the installation packages, I usually add it at the DE or WM install script
 # You can remove the tlp package if you are installing on a desktop or vm
 
-pacman -S --noconfirm grub efibootmgr networkmanager network-manager-applet dialog wpa_supplicant mtools dosfstools reflector base-devel linux-headers xdg-user-dirs xdg-utils gvfs gvfs-smb nfs-utils inetutils dnsutils bluez bluez-utils alsa-utils pulseaudio openssh rsync reflector acpi acpi_call tlp acpid os-prober ntfs-3g intel-ucode
+pacman -S --noconfirm grub efibootmgr networkmanager network-manager-applet dialog wpa_supplicant mtools dosfstools reflector base-devel linux-headers xdg-user-dirs xdg-utils gvfs gvfs-smb nfs-utils inetutils dnsutils bluez bluez-utils alsa-utils pulseaudio acpi acpi_call tlp acpid os-prober ntfs-3g intel-ucode
 
 # pacman -S --noconfirm xf86-video-amdgpu
 pacman -S --noconfirm nvidia nvidia-utils nvidia-settings mesa vulkan-intel
 
 mkinitcpio -P
 
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
+bootctl --esp-path=/efi --boot-path=/boot install
+grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 
 systemctl enable NetworkManager
